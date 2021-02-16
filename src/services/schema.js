@@ -28,6 +28,16 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+userSchema.statics.findByCredentials = async function (username, password) {
+  const newUser = await this.findOne({ username });
+
+  if (newUser) {
+    const isMatch = await bcrypt.compare(password, newUser.password);
+    if (isMatch) return newUser;
+    else return null;
+  } else return null;
+};
+
 userSchema.pre("save", async function (next) {
   const newUser = this;
   if (newUser.isModified("password")) {

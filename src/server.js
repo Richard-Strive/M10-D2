@@ -18,6 +18,7 @@ server.use(cors());
 server.use(express.json());
 
 const port = process.env.PORT || 8001;
+
 server.use("/users", userRoute);
 
 server.use(badRequestHandler);
